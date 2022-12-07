@@ -1,8 +1,6 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonModal, AlertController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
-
-
 
 @Component({
   selector: 'app-tab1',
@@ -10,6 +8,8 @@ import { OverlayEventDetail } from '@ionic/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+
+  constructor(private alertController: AlertController) {}
 
   @ViewChild(IonModal) modal!: IonModal;
 
@@ -24,11 +24,23 @@ export class Tab1Page {
   }
 
   confirm() {
+    if(!this.name || !this.amount || !this.date || !this.type) {
+      this.presentAlert()
+      return
+    }
+
     this.modal.dismiss(this.name, 'confirm');
-    console.log(this.name)
-    console.log(this.date)
-    console.log(this.amount)
-    console.log(this.type)
+    
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Error!',
+      subHeader: 'You did not complete all fields on the form!',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
   onWillDismiss(event: Event) {
@@ -40,6 +52,6 @@ export class Tab1Page {
 
 
 
-  constructor() {}
+  
 
 }
