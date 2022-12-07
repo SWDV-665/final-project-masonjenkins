@@ -49,9 +49,4 @@ export class Tab1Page {
       this.message = `Hello, ${ev.detail.data}!`;
     }
   }
-
-
-
-  
-
 }
