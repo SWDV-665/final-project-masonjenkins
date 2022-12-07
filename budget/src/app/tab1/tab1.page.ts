@@ -42,10 +42,14 @@ export class Tab1Page {
     }
 
     this.dataService.addItem(this.budgetItem);
-
     this.modal.dismiss(this.budgetItem, 'confirm');
     
     
+  }
+
+  deleteItem(index: number) {
+    console.log(index)
+    this.dataService.removeItem(index)
   }
 
   async presentAlert() {
