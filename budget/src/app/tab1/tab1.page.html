@@ -21,12 +21,24 @@
   </ion-fab>
 <!-- end of add button  -->
 
+<div *ngIf="loadItems().length === 0" style="text-align: center;">
+  <h1>No items are currently present in the budget list.</h1>
+</div>
 
+<div *ngIf="loadItems().length > 0">
+  <h1>Total Income: ${{calcItems().incomeTotal}}</h1>
+  <h1>Total Expenses: ${{calcItems().expenseTotal}}</h1>
+  <h1>Total Balance: ${{calcItems().balance}}</h1>
+</div>
 
 <ion-list>
-  <ion-item-sliding>
+  <ion-item-sliding *ngFor="let item of loadItems(); let i = index">
     <ion-item>
-      <ion-label>Sliding Item with End Options</ion-label>
+      <h2>{{item.itemName}} - {{item.amount}}</h2>
+      <br>
+      <h4>{{item.date}}</h4>
+      <br>
+      <h4>{{item.type}}</h4>
     </ion-item>
     <ion-item-options>
       <ion-item-option color="primary"><ion-icon name="create"></ion-icon>Edit</ion-item-option>
@@ -55,19 +67,19 @@
         <!-- modal form  -->
         <ion-item>
           <ion-label position="stacked">Enter transaction name</ion-label>
-          <ion-input type="text" placeholder="Name" [(ngModel)]="name" required></ion-input>
+          <ion-input type="text" placeholder="Item Name" [(ngModel)]="budgetItem.itemName" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Enter transaction amount</ion-label>
-          <ion-input type="number" placeholder="Transaction amount" [(ngModel)]="amount" required></ion-input>
+          <ion-input type="number" placeholder="Transaction amount" [(ngModel)]="budgetItem.amount" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Enter date of transaction</ion-label>
-          <ion-input type="date" placeholder="Date" [(ngModel)]="date" required></ion-input>
+          <ion-input type="date" placeholder="Date" [(ngModel)]="budgetItem.date" required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Select transaction type</ion-label>
-          <ion-select placeholder="Transaction Type" [(ngModel)]="type" required>
+          <ion-select placeholder="Transaction Type" [(ngModel)]="budgetItem.type" required>
             <ion-select-option value="income">Income</ion-select-option>
             <ion-select-option value="expense">Expense</ion-select-option>
           </ion-select>

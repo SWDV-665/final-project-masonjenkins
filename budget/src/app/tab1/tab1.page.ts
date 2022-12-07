@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonModal, AlertController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
+import { BudgetItemService } from '../services/budget-item-service.service';
 
 @Component({
   selector: 'app-tab1',
@@ -9,27 +10,41 @@ import { OverlayEventDetail } from '@ionic/core';
 })
 export class Tab1Page {
 
-  constructor(private alertController: AlertController) {}
+  constructor(private alertController: AlertController, private dataService: BudgetItemService) {}
+
+  loadItems() {
+    return this.dataService.getItems()
+  }
+
+  calcItems() {
+    return this.dataService.calculateTotal()
+  }
 
   @ViewChild(IonModal) modal!: IonModal;
 
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
-  name!: string;
-  date!: Date;
-  amount!: Number;
-  type!: string;
+  budgetItem = {
+    itemName: '',
+    date: Date,
+    amount: Number,
+    type: ''
+  }
+  
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
   confirm() {
-    if(!this.name || !this.amount || !this.date || !this.type) {
+    if(!this.budgetItem) {
       this.presentAlert()
       return
     }
 
-    this.modal.dismiss(this.name, 'confirm');
+    this.dataService.addItem(this.budgetItem);
+
+    this.modal.dismiss(this.budgetItem, 'confirm');
+    
     
   }
 
