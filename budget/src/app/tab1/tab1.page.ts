@@ -40,15 +40,11 @@ export class Tab1Page {
       this.presentAlert()
       return
     }
-
     this.dataService.addItem(this.budgetItem);
-    this.modal.dismiss(this.budgetItem, 'confirm');
-    
-    
+    this.modal.dismiss(this.budgetItem, 'confirm'); 
   }
 
   deleteItem(index: number) {
-    console.log(index)
     this.dataService.removeItem(index)
   }
 
