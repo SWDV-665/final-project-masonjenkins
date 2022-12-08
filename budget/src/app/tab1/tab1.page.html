@@ -25,11 +25,13 @@
   <h1>No items are currently present in the budget list.</h1>
 </div>
 
+<!-- will only show balance, income, expenses, and chart if there are items present  -->
 <div *ngIf="loadItems().length > 0">
   <h1>Total Balance: ${{calcItems().balance}}</h1>
   <h2>Total Income: ${{calcItems().incomeTotal}}</h2>
   <h2>Total Expenses: ${{calcItems().expenseTotal}}</h2>
 
+<!-- chart  -->
   <div style="max-width: 50%; align-items: center;">
     <canvas baseChart class="chart"
           [data]="doughnutChartData"
@@ -38,6 +40,7 @@
   </div>
 </div>
 
+<!-- load items into list from array  -->
 <ion-list>
   <ion-item-sliding *ngFor="let item of loadItems(); let i = index">
     <ion-item>
