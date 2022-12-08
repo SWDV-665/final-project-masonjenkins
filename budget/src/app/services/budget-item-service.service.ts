@@ -18,10 +18,6 @@ export class BudgetItemService {
     this.items.splice(index, 1)
   }
 
-  editItem() {
-
-  }
-
   getItems() {
     return this.items;
   }
@@ -45,7 +41,8 @@ export class BudgetItemService {
 
     finalObject.expenseTotal = expenseTotal
     finalObject.incomeTotal = incomeTotal
-    finalObject.balance = incomeTotal - expenseTotal
+    const calcTotal = incomeTotal - expenseTotal
+    finalObject.balance = (calcTotal * 100) / 100
 
     return finalObject
   }
