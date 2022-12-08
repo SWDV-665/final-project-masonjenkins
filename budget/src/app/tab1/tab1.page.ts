@@ -5,6 +5,7 @@ import { BudgetItemService } from '../services/budget-item-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartData, ChartEvent, ChartType } from 'chart.js';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -48,7 +49,7 @@ export class Tab1Page implements OnInit {
   ionicForm!: FormGroup;
   isSubmitted = false;
 
-  constructor(private alertController: AlertController, private dataService: BudgetItemService, public formBuilder: FormBuilder) {}
+  constructor(private alertController: AlertController, private dataService: BudgetItemService, public formBuilder: FormBuilder, public share: SocialSharing) {}
 
   // allows us to have validators on the form to ensure it is completed
   ngOnInit() {
@@ -84,7 +85,11 @@ export class Tab1Page implements OnInit {
     this.dataService.addItem(this.ionicForm.value);
     this.ionicForm.reset()
     this.modal.dismiss(); 
-    this.updateChart()
+
+    setTimeout(() => {
+      this.updateChart()
+    }, 100)
+    
   }
 
   deleteItem(index: number) {
@@ -100,5 +105,13 @@ export class Tab1Page implements OnInit {
     });
 
     await alert.present();
+  }
+
+  shareItem(item: any) {
+    console.log('fire', item)
+    const message = 'Transaction Name: ' + item.itemName + ' - Amount: $' + item.amount + ' from ' + item.date
+    const subject = 'Shared Budget Transaction'
+
+    this.share.share(message, subject)
   }
 }
